@@ -1,5 +1,7 @@
 package io;
 import logic.Course;
+import logic.RegularStudent;
+import logic.RepeatingStudent;
 import logic.Student;
 
 import java.io.File;
@@ -16,6 +18,7 @@ public class CourseDataReader {
         String major = "";
         String idCourse = "";
         String nameCourse = "";
+        double examGrade = 0;
         int counter;
         try{
             Scanner scanner = new Scanner(courseDataFile);
@@ -26,6 +29,7 @@ public class CourseDataReader {
                 String text = scanner.nextLine();
                 String[] tokens = text.split(",");
                 counter = 0;
+                boolean repeatStudent = false;
                 for(String t: tokens){
                     switch (counter){
                         case 0:
@@ -34,18 +38,31 @@ public class CourseDataReader {
                         case 1:
                             major = majorMap.get(t.trim()).toString();
                             break;
+                        case 2:
+                            if(t.equals("r")){
+                                repeatStudent = true;
+                            }
+                            break;
                         default:
-                            if(isNumeric(t)){
-                                gradeList.add(Double.parseDouble(t));
-                            }else{
-                                System.out.println("Unable to read student data, sorry.");
-                                System.exit(0);
+                            if(repeatStudent = true){
+                                examGrade = Double.parseDouble(t);
+                            }else {
+                                if(counter == 3){
+                                    examGrade = Double.parseDouble(t);
+                                }else {
+                                    gradeList.add(Double.parseDouble(t));
+                                }
                             }
                     }
                     counter =  counter + 1;
                 }
-                Student student = new Student(name, major, gradeList);
-                studentList.add(student);
+                if(repeatStudent){
+                    RepeatingStudent student = new RepeatingStudent(name, major, examGrade);
+                    studentList.add(student);
+                }else {
+                    RegularStudent student = new RegularStudent(name, major, gradeList, examGrade);
+                    studentList.add(student);
+                }
             }
             scanner.close();
         }catch (IOException e){

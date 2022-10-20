@@ -25,6 +25,7 @@ public class Course {
         return students;
     }
 
+    /*
     public double totalGradeCourse(){
         double summe = 0;
         for(int i = 0; i < this.students.size(); i++){
@@ -40,4 +41,6 @@ public class Course {
         }
         this.students = students;
     }
+
+     */
 }

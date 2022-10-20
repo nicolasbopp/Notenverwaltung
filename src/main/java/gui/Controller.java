@@ -66,7 +66,7 @@ public class Controller {
 
         Course course = CourseDataReader.readStudentData(file);                             // Read Data
         if(worstGradeCheckbox.isSelected()){
-            course.removeWorstGrade();                                                      // Remove worst grade
+            //course.removeWorstGrade();                                                      // Remove worst grade
         }
     loadLabel(course);                                                                      // Load label
     drawAverageDiagram(course.getStudents());                                               // Diagram
@@ -79,14 +79,14 @@ public class Controller {
         amountStudentLabel.setText("Anzahl Studierende: " + course.getStudents().size());   // Student amount
         courseIdLabel.setText(course.getId());                                              // Course ID
         courseNameLabel.setText(course.getName());                                          // Course Name
-        averageGradeLabel.setText("Gesamtschnitt: " + course.totalGradeCourse());           // Total Grade Average
+        //averageGradeLabel.setText("Gesamtschnitt: " + course.totalGradeCourse());           // Total Grade Average
     }
 
     // ------------------------------- List
     public void loadAverageList(ArrayList<Student> studentList){
         String[] studentArray = new String[studentList.size()];
         for(int i = 0; i < studentList.size(); i++){
-            studentArray[i] = (studentList.get(i).getName() + " (" + studentList.get(i).getMajor() + "): " + studentList.get(i).computeGradeAverage());
+            studentArray[i] = (studentList.get(i).getName() + " (" + studentList.get(i).getMajor() + "): " + studentList.get(i).getFinalGrade());
         }
         studentListView.getItems().addAll(studentArray);
     }
@@ -95,7 +95,7 @@ public class Controller {
         styleDiagram();
         XYChart.Series<String,Number> series1 = new XYChart.Series();
         for(int i = 0; i < studentList.size(); i++){
-            XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).computeGradeAverage());
+            XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade());
             series1.getData().add(data);
         }
         diagramGrades.getData().add(series1);
