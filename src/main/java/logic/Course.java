@@ -25,10 +25,10 @@ public class Course {
         return students;
     }
 
-    public double totalGradeCourse(){
+    public double totalGradeCourse(double PreGradeFactor){
         double summe = 0;
         for(int i = 0; i < this.students.size(); i++){
-            summe = summe + this.getStudents().get(i).getFinalGrade(0.3);
+            summe = summe + this.getStudents().get(i).getFinalGrade(PreGradeFactor);
         }
         final DecimalFormat df = new DecimalFormat("0.0");
         return Double.parseDouble(df.format(summe/this.students.size()));

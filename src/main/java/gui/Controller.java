@@ -1,14 +1,16 @@
 package gui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import io.CourseDataReader;
@@ -35,7 +37,10 @@ public class Controller {
     private Label courseNameLabel;
     @FXML
     private Label courseIdLabel;
+    @FXML
+    private Slider mySlider;
     public File fileName;
+    public double preGradeFactor = 0.3;
 
     // File selection
     public void btnChooseFile(ActionEvent event) throws IOException {
@@ -47,7 +52,7 @@ public class Controller {
             FileChooser fc = new FileChooser();
             this.fileName = fc.showOpenDialog(thisStage);
             if(fileName.exists()){
-                drawWindow(fileName);
+                initWindow(fileName);
             }
         }catch (Exception e){
             System.out.println("Keine Datei ausgewählt.");
@@ -55,18 +60,26 @@ public class Controller {
         }
     }
 
-    public void checkBoxWorstGrade() {
-        drawWindow(fileName);
-    }
-
-    public void drawWindow(File file){
+    public void initWindow(File file){
     studentListView.setDisable(false);
+    mySlider.setDisable(false);
+    Course course = CourseDataReader.readStudentData(file);                                 // Read Data
 
-    Course course = CourseDataReader.readStudentData(file);                             // Read Data
-    loadLabel(course);                                                                      // Load label
-    drawAverageDiagram(course.getStudents());                                               // Diagram
-    studentListView.getItems().clear();                                                     // Clear list
-    loadAverageList(course.getStudents());                                                  // Build list
+    mySlider.valueProperty().addListener(new ChangeListener<Number>() {
+        @Override
+        public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+            preGradeFactor = ((double) mySlider.getValue()/100);
+            drawWindow(course);
+        }
+    });
+    drawWindow(course);
+}
+
+    public void drawWindow(Course course){
+        loadLabel(course);                                                                      // Load label
+        drawAverageDiagram(course.getStudents());                                               // Diagram
+        studentListView.getItems().clear();                                                     // Clear list
+        loadAverageList(course.getStudents());                                                  // Build list
     }
 
     // ------------------------------- Label
@@ -74,7 +87,7 @@ public class Controller {
         amountStudentLabel.setText("Anzahl Studierende: " + course.getStudents().size());   // Student amount
         courseIdLabel.setText(course.getId());                                              // Course ID
         courseNameLabel.setText(course.getName());                                          // Course Name
-        averageGradeLabel.setText("Gesamtschnitt: " + course.totalGradeCourse());           // Total Grade Average
+        averageGradeLabel.setText("Gesamtschnitt: " + course.totalGradeCourse(preGradeFactor));           // Total Grade Average
     }
 
     // ------------------------------- List
@@ -82,9 +95,9 @@ public class Controller {
         String[] studentArray = new String[studentList.size()];
         for(int i = 0; i < studentList.size(); i++){
             if(studentList.get(i) instanceof RegularStudent){
-                studentArray[i] = (studentList.get(i).getName() + " (" + studentList.get(i).getMajor() + "): " + studentList.get(i).getFinalGrade(0.3));
+                studentArray[i] = (studentList.get(i).getName() + " (" + studentList.get(i).getMajor() + "): " + studentList.get(i).getFinalGrade(preGradeFactor));
             }else{
-                studentArray[i] = (studentList.get(i).getName() + "* (" + studentList.get(i).getMajor() + "): " + studentList.get(i).getFinalGrade(0.3));
+                studentArray[i] = (studentList.get(i).getName() + "* (" + studentList.get(i).getMajor() + "): " + studentList.get(i).getFinalGrade(preGradeFactor));
             }
         }
         studentListView.getItems().addAll(studentArray);
@@ -95,10 +108,10 @@ public class Controller {
         XYChart.Series<String,Number> series1 = new XYChart.Series();
         for(int i = 0; i < studentList.size(); i++){
             if(studentList.get(i) instanceof RegularStudent){
-                XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade(0.3));
+                XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade(preGradeFactor));
                 series1.getData().add(data);
             }else{ // SPÄTER NOCH FARBIG MACHEN
-                XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade(0.3));
+                XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade(preGradeFactor));
                 series1.getData().add(data);
             }
 
