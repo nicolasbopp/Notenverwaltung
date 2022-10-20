@@ -28,8 +28,6 @@ public class Controller {
     @FXML
     private Label averageGradeLabel;
     @FXML
-    private CheckBox worstGradeCheckbox;
-    @FXML
     private NumberAxis yAxis = new NumberAxis();
     @FXML
     private BarChart<String, Number> diagramGrades;

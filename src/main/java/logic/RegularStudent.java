@@ -17,16 +17,16 @@ public class RegularStudent extends Student{
 
     public double getFinalGrade(double preGradeFactor){
         final DecimalFormat df = new DecimalFormat("0.0");
-        return Double.parseDouble(df.format(preGradeFactor * this.computeGradeAverage() + (1-preGradeFactor) * examGrade));
+        return Double.parseDouble(df.format((preGradeFactor * this.computeGradeAverage()) + ((1-preGradeFactor) * examGrade)));
     }
 
-    private void removeWorstGrade(){
+    public void removeWorstGrade(){
         grades.remove(grades.indexOf(Collections.min(grades)));
         this.grades = grades;
     }
 
     public double computeGradeAverage(){
-        removeWorstGrade();
+        //removeWorstGrade();
         double sum = 0;
         for(int i = 0; i < grades.size(); i++){
             sum = sum + grades.get(i);

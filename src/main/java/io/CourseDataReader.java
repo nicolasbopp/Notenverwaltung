@@ -62,6 +62,7 @@ public class CourseDataReader {
                     studentList.add(student);
                 }else {
                     RegularStudent student = new RegularStudent(name, major, gradeList, examGrade);
+                    student.removeWorstGrade();
                     studentList.add(student);
                 }
             }
