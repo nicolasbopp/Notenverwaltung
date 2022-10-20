@@ -73,13 +73,4 @@ public class CourseDataReader {
         Course course = new Course(idCourse, nameCourse, studentList);
         return course;
     }
-
-    private static boolean isNumeric(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 }

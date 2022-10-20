@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Controller {
-
     @FXML
     private Label amountStudentLabel;
     @FXML
@@ -64,6 +63,7 @@ public class Controller {
     studentListView.setDisable(false);
     mySlider.setDisable(false);
     Course course = CourseDataReader.readStudentData(file);                                 // Read Data
+    drawWindow(course);
 
     mySlider.valueProperty().addListener(new ChangeListener<Number>() {
         @Override
@@ -72,7 +72,6 @@ public class Controller {
             drawWindow(course);
         }
     });
-    drawWindow(course);
 }
 
     public void drawWindow(Course course){
@@ -84,10 +83,10 @@ public class Controller {
 
     // ------------------------------- Label
     public void loadLabel(Course course){
-        amountStudentLabel.setText("Anzahl Studierende: " + course.getStudents().size());   // Student amount
-        courseIdLabel.setText(course.getId());                                              // Course ID
-        courseNameLabel.setText(course.getName());                                          // Course Name
-        averageGradeLabel.setText("Gesamtschnitt: " + course.totalGradeCourse(preGradeFactor));           // Total Grade Average
+        amountStudentLabel.setText("Anzahl Studierende: " + course.getStudents().size());           // Student amount
+        courseIdLabel.setText(course.getId());                                                      // Course ID
+        courseNameLabel.setText(course.getName());                                                  // Course Name
+        averageGradeLabel.setText("Gesamtschnitt: " + course.totalGradeCourse(preGradeFactor));     // Total Grade Average
     }
 
     // ------------------------------- List
@@ -107,14 +106,8 @@ public class Controller {
         styleDiagram();
         XYChart.Series<String,Number> series1 = new XYChart.Series();
         for(int i = 0; i < studentList.size(); i++){
-            if(studentList.get(i) instanceof RegularStudent){
-                XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade(preGradeFactor));
-                series1.getData().add(data);
-            }else{ // SPÄTER NOCH FARBIG MACHEN
-                XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade(preGradeFactor));
-                series1.getData().add(data);
-            }
-
+            XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade(preGradeFactor));
+            series1.getData().add(data);
         }
         diagramGrades.getData().add(series1);
     }
