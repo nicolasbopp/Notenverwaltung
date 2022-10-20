@@ -25,22 +25,13 @@ public class Course {
         return students;
     }
 
-    /*
     public double totalGradeCourse(){
         double summe = 0;
         for(int i = 0; i < this.students.size(); i++){
-            summe = summe + this.getStudents().get(i).computeGradeAverage();
+            summe = summe + this.getStudents().get(i).getFinalGrade(0.3);
         }
         final DecimalFormat df = new DecimalFormat("0.0");
         return Double.parseDouble(df.format(summe/this.students.size()));
     }
 
-    public void removeWorstGrade(){
-        for(int i =0; i < this.getStudents().size(); i++){
-            students.get(i).getGrades().remove(students.get(i).getGrades().indexOf(Collections.min(getStudents().get(i).getGrades())));
-        }
-        this.students = students;
-    }
-
-     */
 }

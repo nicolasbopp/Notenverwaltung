@@ -2,6 +2,7 @@ package logic;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class RegularStudent extends Student{
 
@@ -15,16 +16,22 @@ public class RegularStudent extends Student{
     }
 
     public double getFinalGrade(double preGradeFactor){
-        return (preGradeFactor * this.computeGradeAverage() + (1-preGradeFactor) * examGrade);
+        final DecimalFormat df = new DecimalFormat("0.0");
+        return Double.parseDouble(df.format(preGradeFactor * this.computeGradeAverage() + (1-preGradeFactor) * examGrade));
+    }
+
+    private void removeWorstGrade(){
+        grades.remove(grades.indexOf(Collections.min(grades)));
+        this.grades = grades;
     }
 
     public double computeGradeAverage(){
+        removeWorstGrade();
         double sum = 0;
         for(int i = 0; i < grades.size(); i++){
             sum = sum + grades.get(i);
         }
-        final DecimalFormat df = new DecimalFormat("0.0");
-        return Double.parseDouble(df.format(sum / (grades.size())));
+        return sum/grades.size();
     }
 
     public ArrayList<Double> getGrades() {

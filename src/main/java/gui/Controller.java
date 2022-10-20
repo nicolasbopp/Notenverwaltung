@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import io.CourseDataReader;
 import logic.Course;
+import logic.RegularStudent;
 import logic.Student;
 import java.io.File;
 import java.io.IOException;
@@ -61,13 +62,9 @@ public class Controller {
     }
 
     public void drawWindow(File file){
-        worstGradeCheckbox.setDisable(false);
-        studentListView.setDisable(false);
+    studentListView.setDisable(false);
 
-        Course course = CourseDataReader.readStudentData(file);                             // Read Data
-        if(worstGradeCheckbox.isSelected()){
-            //course.removeWorstGrade();                                                      // Remove worst grade
-        }
+    Course course = CourseDataReader.readStudentData(file);                             // Read Data
     loadLabel(course);                                                                      // Load label
     drawAverageDiagram(course.getStudents());                                               // Diagram
     studentListView.getItems().clear();                                                     // Clear list
@@ -79,14 +76,18 @@ public class Controller {
         amountStudentLabel.setText("Anzahl Studierende: " + course.getStudents().size());   // Student amount
         courseIdLabel.setText(course.getId());                                              // Course ID
         courseNameLabel.setText(course.getName());                                          // Course Name
-        //averageGradeLabel.setText("Gesamtschnitt: " + course.totalGradeCourse());           // Total Grade Average
+        averageGradeLabel.setText("Gesamtschnitt: " + course.totalGradeCourse());           // Total Grade Average
     }
 
     // ------------------------------- List
     public void loadAverageList(ArrayList<Student> studentList){
         String[] studentArray = new String[studentList.size()];
         for(int i = 0; i < studentList.size(); i++){
-            studentArray[i] = (studentList.get(i).getName() + " (" + studentList.get(i).getMajor() + "): " + studentList.get(i).getFinalGrade());
+            if(studentList.get(i) instanceof RegularStudent){
+                studentArray[i] = (studentList.get(i).getName() + " (" + studentList.get(i).getMajor() + "): " + studentList.get(i).getFinalGrade(0.3));
+            }else{
+                studentArray[i] = (studentList.get(i).getName() + "* (" + studentList.get(i).getMajor() + "): " + studentList.get(i).getFinalGrade(0.3));
+            }
         }
         studentListView.getItems().addAll(studentArray);
     }
@@ -95,8 +96,14 @@ public class Controller {
         styleDiagram();
         XYChart.Series<String,Number> series1 = new XYChart.Series();
         for(int i = 0; i < studentList.size(); i++){
-            XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade());
-            series1.getData().add(data);
+            if(studentList.get(i) instanceof RegularStudent){
+                XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade(0.3));
+                series1.getData().add(data);
+            }else{ // SPÄTER NOCH FARBIG MACHEN
+                XYChart.Data data = new XYChart.Data<>(studentList.get(i).getName(), studentList.get(i).getFinalGrade(0.3));
+                series1.getData().add(data);
+            }
+
         }
         diagramGrades.getData().add(series1);
     }

@@ -9,7 +9,7 @@ public class RepeatingStudent extends Student{
         this.examGrade = examGrade;
     }
 
-    public double getFinalGrade(){
+    public double getFinalGrade(double preGradeFactor){
         return (examGrade);
     }
 

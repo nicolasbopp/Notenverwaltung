@@ -39,12 +39,12 @@ public class CourseDataReader {
                             major = majorMap.get(t.trim()).toString();
                             break;
                         case 2:
-                            if(t.equals("r")){
+                            if(t.trim().equals("r")){
                                 repeatStudent = true;
                             }
                             break;
                         default:
-                            if(repeatStudent = true){
+                            if(repeatStudent){
                                 examGrade = Double.parseDouble(t);
                             }else {
                                 if(counter == 3){
@@ -54,6 +54,7 @@ public class CourseDataReader {
                                 }
                             }
                     }
+
                     counter =  counter + 1;
                 }
                 if(repeatStudent){

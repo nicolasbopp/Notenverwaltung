@@ -7,7 +7,7 @@ public class Student {
     private String name;
     private String major;
 
-    public double getFinalGrade() {
+    public double getFinalGrade(double preGradeFactor) {
         return 0;
     }
 
