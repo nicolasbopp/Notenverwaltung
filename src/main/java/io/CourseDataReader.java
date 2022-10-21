@@ -22,8 +22,8 @@ public class CourseDataReader {
         int counter;
         try{
             Scanner scanner = new Scanner(courseDataFile);
-            idCourse = scanner.nextLine();
-            nameCourse = scanner.nextLine();
+            idCourse = scanner.nextLine();                                  // Course ID
+            nameCourse = scanner.nextLine();                                // Course Name
             while (scanner.hasNextLine()){
                 ArrayList<Double> gradeList = new ArrayList<Double>();
                 String text = scanner.nextLine();
@@ -32,30 +32,29 @@ public class CourseDataReader {
                 boolean repeatStudent = false;
                 for(String t: tokens){
                     switch (counter){
-                        case 0:
+                        case 0:                                             // Student name
                             name = t;
                             break;
                         case 1:
-                            major = majorMap.get(t.trim()).toString();
+                            major = majorMap.get(t.trim()).toString();      // Student major
                             break;
                         case 2:
                             if(t.trim().equals("r")){
-                                repeatStudent = true;
+                                repeatStudent = true;                       // Repeating Student
                             }
                             break;
-                        default:
-                            if(repeatStudent){
+                        default:                                            // ---- Read Grades ----
+                            if(repeatStudent){                                  // -- Repeating student only read Examgrade
                                 examGrade = Double.parseDouble(t);
                             }else {
-                                if(counter == 3){
-                                    examGrade = Double.parseDouble(t);
+                                if(counter == 3){                               // -- Regular student
+                                    examGrade = Double.parseDouble(t);              // Read Examgrade
                                 }else {
-                                    gradeList.add(Double.parseDouble(t));
+                                    gradeList.add(Double.parseDouble(t));           // Read Pregrade
                                 }
                             }
                     }
-
-                    counter =  counter + 1;
+                    counter += 1;
                 }
                 if(repeatStudent){
                     RepeatingStudent student = new RepeatingStudent(name, major, examGrade);

@@ -26,7 +26,6 @@ public class RegularStudent extends Student{
     }
 
     public double computeGradeAverage(){
-        //removeWorstGrade();
         double sum = 0;
         for(int i = 0; i < grades.size(); i++){
             sum = sum + grades.get(i);
