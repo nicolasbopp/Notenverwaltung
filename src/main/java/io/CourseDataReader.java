@@ -40,17 +40,17 @@ public class CourseDataReader {
                             break;
                         case 2:
                             if(t.trim().equals("r")){
-                                repeatStudent = true;                       // Repeating Student
+                                repeatStudent = true;                       // Check if repeating Student
                             }
                             break;
                         default:                                            // ---- Read Grades ----
-                            if(repeatStudent){                                  // -- Repeating student only read Examgrade
+                            if(repeatStudent){                                  // -- Repeating student only read examgrade
                                 examGrade = Double.parseDouble(t);
                             }else {
                                 if(counter == 3){                               // -- Regular student
-                                    examGrade = Double.parseDouble(t);              // Read Examgrade
+                                    examGrade = Double.parseDouble(t);              // Read examgrade
                                 }else {
-                                    gradeList.add(Double.parseDouble(t));           // Read Pregrade
+                                    gradeList.add(Double.parseDouble(t));           // Read pregrade
                                 }
                             }
                     }
