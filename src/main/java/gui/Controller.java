@@ -13,7 +13,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import io.CourseDataReader;
+import io.CsvDataReader;
 import logic.Course;
 import logic.RegularStudent;
 import logic.Student;
@@ -62,7 +62,7 @@ public class Controller {
     public void initWindow(File file){
     studentListView.setDisable(false);
     mySlider.setDisable(false);
-    Course course = CourseDataReader.readStudentData(file);                                 // Read Data
+    Course course = CsvDataReader.readStudentData(file);                                 // Read Data
     drawWindow(course);
 
     mySlider.valueProperty().addListener(new ChangeListener<Number>() {
