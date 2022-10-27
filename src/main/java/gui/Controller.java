@@ -1,5 +1,6 @@
 package gui;
 
+import io.TagValueDataReader;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -58,22 +59,28 @@ public class Controller {
             fileName = fileSave;
         }
     }
-
     public void initWindow(File file){
     studentListView.setDisable(false);
     mySlider.setDisable(false);
-    Course course = CsvDataReader.readStudentData(file);                                 // Read Data
+    Course course = new Course();
+    if(file.getName().endsWith(".txt")){
+        TagValueDataReader t = new TagValueDataReader();
+        course = t.readData(file);                                 // Read Data
+    }else{
+        CsvDataReader c = new CsvDataReader();
+        course = c.readData(file);                                 // Read Data
+    }
     drawWindow(course);
 
-    mySlider.valueProperty().addListener(new ChangeListener<Number>() {
+        Course finalCourse = course;
+        mySlider.valueProperty().addListener(new ChangeListener<Number>() {
         @Override
         public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
             preGradeFactor = ((double) mySlider.getValue()/100);
-            drawWindow(course);
+            drawWindow(finalCourse);
         }
     });
 }
-
     public void drawWindow(Course course){
         loadLabel(course);                                                                      // Load label
         drawAverageDiagram(course.getStudents());                                               // Diagram

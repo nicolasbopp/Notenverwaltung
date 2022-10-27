@@ -10,8 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class CsvDataReader {
-    public static Course readStudentData(File courseDataFile ){
+public class CsvDataReader implements  CourseDataReader{
+    @Override
+    public  Course readData(File courseDataFile ){
         HashMap majorMap = MajorMapReader.readMajorData(new File("src/main/resources/data/major.txt"));
         ArrayList<Student> studentList = new ArrayList<Student>();
         String name = "";

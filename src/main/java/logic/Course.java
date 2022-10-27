@@ -9,6 +9,8 @@ public class Course {
     private String name;
     private ArrayList<Student> students;
 
+    public Course() {
+    }
     public Course(String id, String name, ArrayList<Student> students) {
         this.id = id;
         this.name = name;
@@ -28,7 +30,7 @@ public class Course {
     public double totalGradeCourse(double PreGradeFactor){
         double summe = 0;
         for(int i = 0; i < this.students.size(); i++){
-            summe =+ this.getStudents().get(i).getFinalGrade(PreGradeFactor);
+            summe = summe + this.getStudents().get(i).getFinalGrade(PreGradeFactor);
         }
         final DecimalFormat df = new DecimalFormat("0.0");
         return Double.parseDouble(df.format(summe/this.students.size()));
