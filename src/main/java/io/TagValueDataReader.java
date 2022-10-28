@@ -29,18 +29,16 @@ public class TagValueDataReader implements CourseDataReader{
         String readLine = "";
         String key = "";
         String value = "";
-        boolean newStudent = false;
 
         try {
-            // Kursdaten
+            // Coursedata
             Scanner scanner = new Scanner(courseDataFile);
             readLine = scanner.nextLine();
             idCourse = readLine.substring((readLine.indexOf(":")+2));       // Course ID
             readLine = scanner.nextLine();
             nameCourse = readLine.substring((readLine.indexOf(":")+2));     // Course Name
 
-            // Studenten
-            ArrayList<Double> gradeList = new ArrayList<Double>();
+            // Studentdata
             while (scanner.hasNextLine()){
                 readLine = scanner.nextLine();
                 key = readLine.substring(0,readLine.indexOf(":"));
@@ -62,27 +60,19 @@ public class TagValueDataReader implements CourseDataReader{
                     case "exam-grade":
                         examGrade = Double.parseDouble(value);
                         if(repeatStudent){
-                            newStudent = true;                      // Letztes Feld von Repeating Student eingelesen > Neuer Student wird erstellt
+                            RepeatingStudent student = new RepeatingStudent(name, major, examGrade);
+                            studentList.add(student);
                         }
                         break;
                     case "pre-grade":
+                        ArrayList<Double> gradeList = new ArrayList<Double>();
                         String[] tokens = value.split(",");
                         for(String grade : tokens){
                             gradeList.add(Double.parseDouble(grade));
                         }
-                        newStudent = true;                          // Letztes Feld von Regular Student eingelesen > Neuer Student wird erstellt
-                        break;
-                }
-                if (newStudent){
-                    if(repeatStudent){
-                        RepeatingStudent student = new RepeatingStudent(name, major, examGrade);
-                        studentList.add(student);
-                    }else {
                         RegularStudent student = new RegularStudent(name, major, gradeList, examGrade);
                         student.removeWorstGrade();
                         studentList.add(student);
-                    }
-                    newStudent = false;
                 }
             }
             scanner.close();
