@@ -73,6 +73,7 @@ public class TagValueDataReader implements CourseDataReader{
                         RegularStudent student = new RegularStudent(name, major, gradeList, examGrade);
                         student.removeWorstGrade();
                         studentList.add(student);
+                        break;
                 }
             }
             scanner.close();
