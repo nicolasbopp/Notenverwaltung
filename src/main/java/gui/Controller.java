@@ -72,13 +72,13 @@ public class Controller {
     }
     drawWindow(course);
 
-        Course finalCourse = course;
-        mySlider.valueProperty().addListener(new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-            preGradeFactor = ((double) mySlider.getValue()/100);
-            drawWindow(finalCourse);
-        }
+    Course finalCourse = course;
+    mySlider.valueProperty().addListener(new ChangeListener<Number>() {
+    @Override
+    public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+        preGradeFactor = ((double) mySlider.getValue()/100);
+        drawWindow(finalCourse);
+    }
     });
 }
     public void drawWindow(Course course){
