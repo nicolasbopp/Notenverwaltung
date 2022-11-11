@@ -196,12 +196,11 @@ public class Controller {
         successLine.setStroke(Color.BLACK);
         drawPanel.getChildren().add(successLine);
 
-        // Creates a line for the average grade of the class
+        // Creates a line for the average grade
         Line averageLine = new Line(borderGap,(drawPanel.getHeight()-((drawPanel.getHeight()-2*borderGap)*course.totalGradeCourse(preGradeFactor)/6))-borderGap,(drawPanel.getWidth()-(borderGap))+3,(drawPanel.getHeight()-((drawPanel.getHeight()-2*borderGap)*course.totalGradeCourse(preGradeFactor)/6))-borderGap);
         averageLine.setStrokeWidth(2.4);
         averageLine.setStroke(Color.DARKBLUE);
         drawPanel.getChildren().add(averageLine);
-
         Text averageText = new Text(String.valueOf("Durchschnitssnote"));
         averageText.getTransforms().add(new Translate(borderGap, drawPanel.getHeight()-((drawPanel.getHeight()-2*borderGap)*course.totalGradeCourse(preGradeFactor)/6)-30));
         averageText.setFill(Color.DARKBLUE);
