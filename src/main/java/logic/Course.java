@@ -32,7 +32,7 @@ public class Course {
         for(int i = 0; i < this.students.size(); i++){
             summe = summe + this.getStudents().get(i).getFinalGrade(PreGradeFactor);
         }
-        final DecimalFormat df = new DecimalFormat("0.0");
+        final DecimalFormat df = new DecimalFormat("0.00");
         return Double.parseDouble(df.format(summe/this.students.size()));
     }
 

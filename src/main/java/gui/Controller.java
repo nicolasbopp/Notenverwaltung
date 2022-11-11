@@ -98,7 +98,6 @@ public class Controller {
         drawWindow(finalCourse);
     }
     });
-
     mainPane.widthProperty().addListener(new ChangeListener<Number>() {
         @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
             drawManuelDiagram(finalCourse);
@@ -150,7 +149,7 @@ public class Controller {
         //Init Variables
         drawPanel.getChildren().clear();
 
-        //### Customizable ###
+        //----- Customizable -----
         double gap = 10;                     // Gap between the data bars
         double borderGap = 25;              // Gap between the diagram and the border of the pane
         // --------------------------------------------------------------------------------------
@@ -165,6 +164,9 @@ public class Controller {
             gradeLine.setStroke(Color.DARKGRAY);
             if(i%1==0){
                 gradeLine.setStrokeWidth(0.9);  // Every whole number is a THIIIIIIICK line
+                Text nameText = new Text(String.valueOf(i));
+                nameText.getTransforms().add(new Translate(borderGap-20, (drawPanel.getHeight()-((drawPanel.getHeight()-2*borderGap)*i/6))-borderGap - 10));
+                drawPanel.getChildren().add(nameText);
             }else{
                 gradeLine.setStrokeWidth(0.3);  // Every decimal number in slime line
             }
@@ -188,19 +190,22 @@ public class Controller {
             drawPanel.getChildren().add(nameText);
             xPosition += widthBar + gap;
         }
-
         // Creates a THIIICKer line on grade 4
         Line successLine = new Line(borderGap-20,(drawPanel.getHeight()-((drawPanel.getHeight()-2*borderGap)*4/6))-borderGap,(drawPanel.getWidth()-(borderGap)+3),(drawPanel.getHeight()-((drawPanel.getHeight()-2*borderGap)*4/6))-borderGap);
         successLine.setStrokeWidth(1.8);
         successLine.setStroke(Color.BLACK);
         drawPanel.getChildren().add(successLine);
 
-        // Adds the mark to the horizontal divider line
-        for(int i = 1; i <= 6; i++){
-            Text nameText = new Text(String.valueOf(i));
-            nameText.getTransforms().add(new Translate(borderGap-20, (drawPanel.getHeight()-((drawPanel.getHeight()-2*borderGap)*i/6))-borderGap - 10));
-            drawPanel.getChildren().add(nameText);
-        }
+        // Creates a line for the average grade of the class
+        Line averageLine = new Line(borderGap,(drawPanel.getHeight()-((drawPanel.getHeight()-2*borderGap)*course.totalGradeCourse(preGradeFactor)/6))-borderGap,(drawPanel.getWidth()-(borderGap))+3,(drawPanel.getHeight()-((drawPanel.getHeight()-2*borderGap)*course.totalGradeCourse(preGradeFactor)/6))-borderGap);
+        averageLine.setStrokeWidth(2.4);
+        averageLine.setStroke(Color.DARKBLUE);
+        drawPanel.getChildren().add(averageLine);
+
+        Text averageText = new Text(String.valueOf("Durchschnitssnote"));
+        averageText.getTransforms().add(new Translate(borderGap, drawPanel.getHeight()-((drawPanel.getHeight()-2*borderGap)*course.totalGradeCourse(preGradeFactor)/6)-30));
+        averageText.setFill(Color.DARKBLUE);
+        drawPanel.getChildren().add(averageText);
     }
 
     // Creates the diagram for tab "Old Version"
