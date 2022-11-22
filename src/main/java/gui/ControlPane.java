@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
@@ -27,10 +28,14 @@ import io.CsvDataReader;
 import logic.Course;
 import logic.RegularStudent;
 import logic.Student;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ControlPane {
     @FXML
@@ -55,9 +60,11 @@ public class ControlPane {
     private AnchorPane drawPanel;
     @FXML
     private Label preGradeLabel;
-    private Line averageLine;
+    @FXML
+    private CheckBox sortGrades;
     public File fileName;
     public double preGradeFactor = 0.3;
+    public ArrayList<Student> saveStudentList;
 
     // File selection
     public void btnChooseFile(ActionEvent event) throws IOException {
@@ -79,6 +86,7 @@ public class ControlPane {
     public void initWindow(File file){
     studentListView.setDisable(false);
     mySlider.setDisable(false);
+    sortGrades.setDisable(false);
     preGradeLabel.setDisable(false);
     Course course = new Course();
     if(file.getName().endsWith(".txt")){
@@ -98,6 +106,10 @@ public class ControlPane {
         drawWindow(finalCourse);
     }
     });
+    sortGrades.selectedProperty().addListener(
+            (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+                drawWindow(finalCourse);
+            });
     mainPane.widthProperty().addListener(new ChangeListener<Number>() {
         @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
             drawManuelDiagram(finalCourse);
@@ -110,6 +122,19 @@ public class ControlPane {
     });
 }
     public void drawWindow(Course course){
+        if (sortGrades.isSelected()){
+            Collections.sort(course.getStudents(), new Comparator<Student>(){
+                public int compare(Student s1, Student s2) {
+                    return String.valueOf(s1.getFinalGrade(preGradeFactor)).compareToIgnoreCase(String.valueOf(s2.getFinalGrade(preGradeFactor)));
+                }
+            });
+        }else{
+            Collections.sort(course.getStudents(), new Comparator<Student>(){
+                public int compare(Student s1, Student s2) {
+                    return s1.getName().compareToIgnoreCase(s2.getName());
+                }
+            });
+        }
         loadLabel(course);                                                                      // Load label
         drawDiagram(course);                                                                    // Diagram
         studentListView.getItems().clear();                                                     // Clear list

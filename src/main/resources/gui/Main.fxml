@@ -4,6 +4,7 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
@@ -66,7 +67,21 @@
         <tabs>
           <Tab text="New Version">
             <content>
-              <AnchorPane fx:id="drawPanel" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="509.6" prefWidth="686.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <AnchorPane fx:id="drawPanel" prefHeight="447.0" prefWidth="686.0" BorderPane.alignment="CENTER" />
+                           </center>
+                           <top>
+                              <Pane prefHeight="45.0" prefWidth="686.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <CheckBox fx:id="sortGrades" disable="true" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Nach Noten sortieren." />
+                                 </children>
+                              </Pane>
+                           </top>
+                        </BorderPane>
+                     </children></AnchorPane>
             </content>
           </Tab>
           <Tab text="Old Version (BarChart)">

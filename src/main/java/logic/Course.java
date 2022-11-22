@@ -27,6 +27,10 @@ public class Course {
         return students;
     }
 
+    public void setStudents(ArrayList<Student> students) {
+        this.students = students;
+    }
+
     public double totalGradeCourse(double PreGradeFactor){
         double summe = 0;
         for(int i = 0; i < this.students.size(); i++){
